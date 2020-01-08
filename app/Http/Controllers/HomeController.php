@@ -28,10 +28,21 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function userlist(User $user){
-        $users = $user->all();
-        return datatables()->of($users)
-            ->make(true);
+    public function userlist(Request $request, User $user){
+        if ($request->ajax()) {
+            $data = User::latest()->get();
+            return datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+   
+                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+      
     }
 
     public function viewYajraUsers(User $user){

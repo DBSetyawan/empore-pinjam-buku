@@ -12,4 +12,11 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .extract([
+        'jquery', 'bootstrap-sass', 'datatables.net', 'datatables.net-bs4'
+    ])
+    .autoload({
+        jquery: ['$', 'window.jQuery', 'jQuery', 'jquery'],
+        DataTable : 'datatables.net-bs4'
+    })
