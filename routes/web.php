@@ -23,6 +23,6 @@ Route::get('/userlist', 'HomeController@userlist')->name('userlist');
 Route::resource('users', 'UserController');
 
 
-Route::get('users/update', 'UserController@update')->name('user.update');
+Route::post('users/update', 'UserController@update')->name('user.update');
 
 Route::get('users/destroy/{id}', 'UserController@destroy');

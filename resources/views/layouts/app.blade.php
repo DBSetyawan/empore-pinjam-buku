@@ -81,23 +81,17 @@
 
   $('#formModal').modal('show');
  });
- $('#users_form').on('submit', function(event){
+ $('#sample_form').on('submit', function(event){
   event.preventDefault();
   var action_url = '';
 
   if($('#action').val() == 'Add')
   {
    action_url = "{{ route('users.store') }}";
-  }
-
-  if($('#action').val() == 'Edit')
-  {
-   action_url = "{{ route('user.update') }}";
-  }
-
-  $.ajax({
+   $.ajax({
    url: action_url,
    data:$(this).serialize(),
+   type: "POST",
    dataType:"json",
    success:function(data)
    {
@@ -114,12 +108,45 @@
     if(data.success)
     {
      html = '<div class="alert alert-success">' + data.success + '</div>';
-     $('#users_form')[0].reset();
+     $('#sample_form')[0].reset();
      $('#user_table').DataTable().ajax.reload();
     }
     $('#form_result').html(html);
    }
   });
+  }
+
+  if($('#action').val() == 'Edit')
+  {
+   action_url = "{{ route('user.update') }}";
+  $.ajax({
+   url: action_url,
+   data:$(this).serialize(),
+   type: "POST",
+   dataType:"json",
+   success:function(data)
+   {
+    var html = '';
+    if(data.errors)
+    {
+     html = '<div class="alert alert-danger">';
+     for(var count = 0; count < data.errors.length; count++)
+     {
+      html += '<p>' + data.errors[count] + '</p>';
+     }
+     html += '</div>';
+    }
+    if(data.success)
+    {
+     html = '<div class="alert alert-success">' + data.success + '</div>';
+     $('#sample_form')[0].reset();
+     $('#user_table').DataTable().ajax.reload();
+    }
+    $('#form_result').html(html);
+   }
+  });
+  }
+
  });
 
  $(document).on('click', '.edit', function(){
@@ -127,6 +154,7 @@
   $('#form_result').html('');
   $.ajax({
    url :"/users/"+id+"/edit",
+   type: "GET",
    dataType:"json",
    success:function(data)
    {

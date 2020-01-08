@@ -11,7 +11,7 @@
                     </div>
 
                 <div class="card-body">
-                    <table class="table table-bordered data-table">
+                    <table id="user_table" class="table table-bordered data-table">
 
                         <thead>
                 
@@ -58,7 +58,7 @@
              <div class="form-group">
                <label class="control-label col-md-4" >First Name : </label>
                <div class="col-md-8">
-                <input type="text" name="first_name" id="first_name" class="form-control" />
+                <input type="text" name="name" id="name" class="form-control" />
                </div>
               </div>
               <div class="form-group">

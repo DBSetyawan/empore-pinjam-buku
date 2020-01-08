@@ -108,8 +108,7 @@ class UserController extends Controller
     public function update(Request $request, User $User)
     {
         $rules = array(
-            'first_name'        =>  'required',
-            'last_name'         =>  'required'
+            'name'        =>  'required',
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -120,8 +119,7 @@ class UserController extends Controller
         }
 
         $form_data = array(
-            'first_name'    =>  $request->first_name,
-            'last_name'     =>  $request->last_name
+            'name'    =>  $request->name
         );
 
         User::whereId($request->hidden_id)->update($form_data);
