@@ -35,9 +35,12 @@ class HomeController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+                        //    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">"'.$row->id.'"View</a>';
      
-                            return $btn;
+                        //     return $btn;
+                        $button = '<button type="button" name="edit" id="'.$row->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" id="'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                        return $button;
                     })
                     ->rawColumns(['action'])
                     ->make(true);

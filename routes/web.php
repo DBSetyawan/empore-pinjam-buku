@@ -20,3 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/viewYajraUsers', 'HomeController@viewYajraUsers')->name('yajra-db-user');
 Route::get('/userlist', 'HomeController@userlist')->name('userlist');
+Route::resource('users', 'UserController');
+
+
+Route::get('users/update', 'UserController@update')->name('user.update');
+
+Route::get('users/destroy/{id}', 'UserController@destroy');

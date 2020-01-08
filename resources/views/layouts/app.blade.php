@@ -73,8 +73,105 @@
                 
                     });
                 
-                    
+                    $('#create_record').click(function(){
+  $('.modal-title').text('Add New Record');
+  $('#action_button').val('Add');
+  $('#action').val('Add');
+  $('#form_result').html('');
+
+  $('#formModal').modal('show');
+ });
+ $('#users_form').on('submit', function(event){
+  event.preventDefault();
+  var action_url = '';
+
+  if($('#action').val() == 'Add')
+  {
+   action_url = "{{ route('users.store') }}";
+  }
+
+  if($('#action').val() == 'Edit')
+  {
+   action_url = "{{ route('user.update') }}";
+  }
+
+  $.ajax({
+   url: action_url,
+   data:$(this).serialize(),
+   dataType:"json",
+   success:function(data)
+   {
+    var html = '';
+    if(data.errors)
+    {
+     html = '<div class="alert alert-danger">';
+     for(var count = 0; count < data.errors.length; count++)
+     {
+      html += '<p>' + data.errors[count] + '</p>';
+     }
+     html += '</div>';
+    }
+    if(data.success)
+    {
+     html = '<div class="alert alert-success">' + data.success + '</div>';
+     $('#users_form')[0].reset();
+     $('#user_table').DataTable().ajax.reload();
+    }
+    $('#form_result').html(html);
+   }
+  });
+ });
+
+ $(document).on('click', '.edit', function(){
+  var id = $(this).attr('id');
+  $('#form_result').html('');
+  $.ajax({
+   url :"/users/"+id+"/edit",
+   dataType:"json",
+   success:function(data)
+   {
+    $('#first_name').val(data.result.first_name);
+    $('#last_name').val(data.result.last_name);
+    $('#hidden_id').val(id);
+    $('.modal-title').text('Edit Record');
+    $('#action_button').val('Edit');
+    $('#action').val('Edit');
+    $('#formModal').modal('show');
+   }
+  })
+ });
+
+ var user_id;
+
+ $(document).on('click', '.delete', function(){
+  user_id = $(this).attr('id');
+  $('#confirmModal').modal('show');
+ });
+
+ $('#ok_button').click(function(){
+  $.ajax({
+   url:"users/destroy/"+user_id,
+   beforeSend:function(){
+    $('#ok_button').text('Deleting...');
+   },
+   success:function(data)
+   {
+    setTimeout(function(){
+     $('#confirmModal').modal('hide');
+     $('#user_table').DataTable().ajax.reload();
+     alert('Data Deleted');
+    }, 2000);
+   }
+  })
+ });
                 
+ $('#createNewProduct').click(function () {
+        $('#saveBtn').val("create-product");
+        $('#product_id').val('');
+        $('#productForm').trigger("reset");
+        $('#modelHeading').html("Create New Product");
+        $('#ajaxModel').modal('show');
+    });
                   });
                 
                 </script>
@@ -122,7 +219,6 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
