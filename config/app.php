@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://pt-empore-dev.labx'),
+    'url' => env('APP_URL', 'http://empore-dev.labx'),
 
     'asset_url' => env('ASSET_URL', null),
 

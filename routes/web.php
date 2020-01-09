@@ -22,7 +22,6 @@ Route::get('/viewYajraUsers', 'HomeController@viewYajraUsers')->name('yajra-db-u
 Route::get('/userlist', 'HomeController@userlist')->name('userlist');
 Route::resource('users', 'UserController');
 
-
 Route::post('users/update', 'UserController@update')->name('user.update');
 
 Route::get('users/destroy/{id}', 'UserController@destroy');
